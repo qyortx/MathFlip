@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MathFlip - Kuis Kartu Matematika Interaktif</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Background Animated Gradients -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- Main Container -->
+  <main class="app-container">
+    
+    <!-- 1. LANDING SCREEN -->
+    <section id="screen-landing" class="screen active">
+      <div class="landing-card text-center">
+        <div class="logo-container">
+          <div class="logo-icon-wrapper">
+            <i data-lucide="calculator" class="logo-icon"></i>
+          </div>
+          <h1 class="logo-text">Math<span>Flip</span></h1>
+          <p class="tagline">Belajar Matematika Jadi Lebih Seru dengan Kuis Kartu Interaktif</p>
+        </div>
+
+        <div class="landing-actions">
+          <div class="student-play-box hidden" id="box-student-play">
+            <h3 class="subtitle-box">Kuis Guru Siap Dimainkan!</h3>
+            <div class="quiz-info-badge">
+              <i data-lucide="file-question" class="badge-icon"></i>
+              <span id="landing-quiz-title">Matematika Dasar</span>
+              <span class="badge-separator">|</span>
+              <span id="landing-quiz-count">8 Kartu</span>
+            </div>
+            <button id="btn-start-game" class="btn btn-primary btn-lg btn-glow">
+              <i data-lucide="play" class="btn-icon"></i>
+              Mulai Bermain Kuis
+            </button>
+            <div class="divider">atau</div>
+          </div>
+
+          <button id="btn-go-creator" class="btn btn-secondary btn-lg">
+            <i data-lucide="plus-circle" class="btn-icon"></i>
+            Buat Kuis Baru (Guru)
+          </button>
+        </div>
+
+        <footer class="landing-footer">
+          <p>Dibuat untuk mempermudah guru memberikan kuis matematika interaktif gratis.</p>
+        </footer>
+      </div>
+    </section>
+
+    <!-- 2. CREATOR SCREEN (TEACHER PANEL) -->
+    <section id="screen-creator" class="screen">
+      <div class="creator-header">
+        <button id="btn-creator-back" class="btn btn-icon-only btn-back">
+          <i data-lucide="arrow-left"></i>
+        </button>
+        <div class="header-titles">
+          <h2>Panel Pembuat Kuis</h2>
+          <p>Atur soal kuis matematika sesuai kebutuhan kelas Anda</p>
+        </div>
+      </div>
+
+      <div class="creator-layout">
+        <!-- Sidebar: Settings & Generator -->
+        <aside class="creator-sidebar">
+          <!-- Quiz Details -->
+          <div class="creator-box">
+            <h3 class="box-title"><i data-lucide="settings"></i> Pengaturan Umum</h3>
+            <div class="form-group">
+              <label for="input-quiz-title">Judul Kuis</label>
+              <input type="text" id="input-quiz-title" placeholder="Misal: Penjumlahan & Perkalian Kelas 3" value="Kuis Matematika Seru">
+            </div>
+            <div class="form-group">
+              <label>Batas Waktu (Timer per Soal)</label>
+              <div class="timer-toggle-wrapper">
+                <label class="switch">
+                  <input type="checkbox" id="checkbox-timer-enable" checked>
+                  <span class="slider round"></span>
+                </label>
+                <span id="timer-status-text">Aktif (Detik per Soal)</span>
+              </div>
+              <div class="timer-input-wrapper" id="div-timer-value">
+                <input type="number" id="input-timer-seconds" min="5" max="300" value="20" class="input-inline">
+                <span>Detik</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Auto Generator -->
+          <div class="creator-box generator-box-style">
+            <h3 class="box-title"><i data-lucide="sparkles"></i> Generator Soal Otomatis</h3>
+            <p class="box-desc">Hasilkan soal matematika secara acak secara instan.</p>
+            
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="select-card-count">Jumlah Kartu</label>
+                <select id="select-card-count">
+                  <option value="4">4 Kartu</option>
+                  <option value="6">6 Kartu</option>
+                  <option value="8" selected>8 Kartu</option>
+                  <option value="12">12 Kartu</option>
+                  <option value="16">16 Kartu</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Operasi Matematika</label>
+              <div class="checkbox-grid">
+                <label class="checkbox-container">
+                  <input type="checkbox" id="op-add" checked>
+                  <span class="checkmark"></span>
+                  Penjumlahan (+)
+                </label>
+                <label class="checkbox-container">
+                  <input type="checkbox" id="op-sub" checked>
+                  <span class="checkmark"></span>
+                  Pengurangan (-)
+                </label>
+                <label class="checkbox-container">
+                  <input type="checkbox" id="op-mul" checked>
+                  <span class="checkmark"></span>
+                  Perkalian (×)
+                </label>
+                <label class="checkbox-container">
+                  <input type="checkbox" id="op-div">
+                  <span class="checkmark"></span>
+                  Pembagian (÷)
+                </label>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="input-num-min">Angka Min</label>
+                <input type="number" id="input-num-min" value="1">
+              </div>
+              <div class="form-group col">
+                <label for="input-num-max">Angka Maks</label>
+                <input type="number" id="input-num-max" value="10">
+              </div>
+            </div>
+
+            <button id="btn-generate-questions" class="btn btn-primary btn-block">
+              <i data-lucide="wand-2"></i> Buat Soal Otomatis
+            </button>
+          </div>
+        </aside>
+
+        <!-- Main Workspace: Card List & Add/Share -->
+        <div class="creator-workspace">
+          <div class="workspace-header">
+            <h3>Daftar Soal Kartu (<span id="span-question-count">0</span>)</h3>
+            <button id="btn-add-manual" class="btn btn-secondary btn-sm">
+              <i data-lucide="plus"></i> Tambah Soal Manual
+            </button>
+          </div>
+
+          <!-- Question Cards Container -->
+          <div id="questions-list" class="questions-list">
+            <!-- Dynamic elements will be inserted here -->
+            <div class="empty-state" id="creator-empty-state">
+              <i data-lucide="clipboard-list" class="empty-icon"></i>
+              <p>Belum ada soal kuis. Klik "Buat Soal Otomatis" atau "Tambah Soal Manual" di atas.</p>
+            </div>
+          </div>
+
+          <!-- Share / Action Bar -->
+          <div class="creator-action-bar">
+            <button id="btn-share-quiz" class="btn btn-success btn-lg btn-block btn-glow">
+              <i data-lucide="share-2"></i> Bagikan & Salin Tautan Kuis
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. GAMEPLAY SCREEN (STUDENT PLAY MODE) -->
+    <section id="screen-gameplay" class="screen">
+      <!-- Game Header -->
+      <div class="game-header">
+        <button id="btn-game-quit" class="btn btn-icon-only btn-quit">
+          <i data-lucide="log-out"></i>
+        </button>
+        <div class="game-title-area">
+          <h2 id="game-quiz-title">Kuis Matematika</h2>
+          <div class="game-stats">
+            <div class="stat-badge">
+              <i data-lucide="award"></i> Skor: <span id="game-score">0</span>/<span id="game-total">0</span>
+            </div>
+            <div class="stat-badge">
+              <i data-lucide="layers"></i> Kartu Tersisa: <span id="game-remaining">0</span>
+            </div>
+          </div>
+        </div>
+        <!-- Sound Toggle -->
+        <button id="btn-sound-toggle" class="btn btn-icon-only sound-on">
+          <i data-lucide="volume-2" id="icon-sound"></i>
+        </button>
+      </div>
+
+      <!-- General Timer Bar (Progress Indicator) -->
+      <div class="timer-progress-container" id="game-timer-container">
+        <div class="timer-progress-bar" id="game-timer-bar"></div>
+        <div class="timer-label"><i data-lucide="clock"></i> <span id="game-timer-text">20s</span></div>
+      </div>
+
+      <!-- Instruction Label -->
+      <p class="game-instruction">Pilih salah satu kartu di bawah ini untuk membuka soal matematika!</p>
+
+      <!-- The Grid of Cards -->
+      <div id="game-card-grid" class="card-grid">
+        <!-- Dynamic Cards flipped in 3D will be generated here -->
+      </div>
+    </section>
+
+    <!-- 4. END GAME SCREEN (SCORE REPORT) -->
+    <section id="screen-end" class="screen">
+      <div class="end-card text-center">
+        <div class="trophy-wrapper">
+          <div class="trophy-circle">
+            <i data-lucide="trophy" class="trophy-icon animate-bounce"></i>
+          </div>
+        </div>
+
+        <h2 id="end-status-heading">Luar Biasa!</h2>
+        <p class="end-desc">Anda telah menyelesaikan kuis matematika ini.</p>
+
+        <!-- Score Presentation Card -->
+        <div class="score-card">
+          <div class="score-circle">
+            <span class="score-number" id="end-score">0</span>
+            <span class="score-total">/ <span id="end-total">0</span></span>
+          </div>
+          <div class="score-details">
+            <div class="detail-item">
+              <span class="detail-label">Akurasi</span>
+              <span class="detail-val" id="end-accuracy">0%</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Waktu Total</span>
+              <span class="detail-val" id="end-time">0 detik</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="end-actions">
+          <button id="btn-restart-game" class="btn btn-primary btn-lg btn-block">
+            <i data-lucide="rotate-ccw"></i> Main Lagi
+          </button>
+          <button id="btn-end-home" class="btn btn-secondary btn-lg btn-block">
+            <i data-lucide="home"></i> Kembali ke Menu Utama
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 5. QUESTION OVERLAY MODAL -->
+  <div class="modal-overlay" id="question-modal">
+    <div class="modal-content text-center animate-zoom-in">
+      <!-- Modal Header / Timer -->
+      <div class="modal-header">
+        <div class="modal-timer-pill" id="modal-timer-pill">
+          <i data-lucide="clock" class="timer-pill-icon"></i>
+          <span id="modal-timer-text">20</span>
+        </div>
+      </div>
+
+      <!-- Question Text -->
+      <div class="question-container">
+        <div class="question-badge">Soal Kartu <span id="modal-card-number">1</span></div>
+        <h2 class="question-text" id="modal-question-text">15 + 7 = ... ?</h2>
+      </div>
+
+      <!-- Choices Grid (Multiple Choice A, B, C, D) -->
+      <div class="choices-grid">
+        <button class="btn-choice" data-choice="0">
+          <span class="choice-letter">A</span>
+          <span class="choice-text" id="choice-text-0">20</span>
+        </button>
+        <button class="btn-choice" data-choice="1">
+          <span class="choice-letter">B</span>
+          <span class="choice-text" id="choice-text-1">22</span>
+        </button>
+        <button class="btn-choice" data-choice="2">
+          <span class="choice-letter">C</span>
+          <span class="choice-text" id="choice-text-2">21</span>
+        </button>
+        <button class="btn-choice" data-choice="3">
+          <span class="choice-letter">D</span>
+          <span class="choice-text" id="choice-text-3">18</span>
+        </button>
+      </div>
+
+      <!-- Status indicator (Correct/Wrong/Timeout) -->
+      <div class="answer-status-overlay" id="answer-status-overlay">
+        <div class="status-inner">
+          <i data-lucide="check-circle" class="status-icon success-icon" id="status-icon-correct"></i>
+          <i data-lucide="x-circle" class="status-icon danger-icon" id="status-icon-wrong"></i>
+          <i data-lucide="alert-circle" class="status-icon warning-icon" id="status-icon-timeout"></i>
+          <h3 id="status-message">Jawaban Benar!</h3>
+          <p id="status-submessage">+10 Poin</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manual Question Form Modal (For teacher) -->
+  <div class="modal-overlay" id="manual-soal-modal">
+    <div class="modal-content modal-creator animate-zoom-in">
+      <div class="modal-creator-header">
+        <h3><i data-lucide="plus-circle"></i> Tambah / Edit Soal Manual</h3>
+        <button class="btn-icon-only" id="btn-close-manual-modal"><i data-lucide="x"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="manual-edit-index" value="-1">
+        
+        <div class="form-group">
+          <label for="input-manual-question">Soal Matematika</label>
+          <input type="text" id="input-manual-question" placeholder="Misal: 12 x 5 atau Berapa hasil dari 100 / 4?">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="input-manual-ans">Kunci Jawaban Benar</label>
+            <input type="number" id="input-manual-ans" placeholder="Jawaban yang benar (Angka)" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Opsi Jawaban Salah (Distraktor)</label>
+          <div class="choices-inputs">
+            <div class="choice-input-item">
+              <span class="input-badge danger">Salah 1</span>
+              <input type="number" id="input-manual-wrong-1" placeholder="Pilihan salah 1" required>
+            </div>
+            <div class="choice-input-item">
+              <span class="input-badge danger">Salah 2</span>
+              <input type="number" id="input-manual-wrong-2" placeholder="Pilihan salah 2" required>
+            </div>
+            <div class="choice-input-item">
+              <span class="input-badge danger">Salah 3</span>
+              <input type="number" id="input-manual-wrong-3" placeholder="Pilihan salah 3" required>
+            </div>
+          </div>
+        </div>
+        
+        <button id="btn-save-manual-soal" class="btn btn-primary btn-block">Simpan Soal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share URL Toast / Modal -->
+  <div class="modal-overlay" id="share-modal">
+    <div class="modal-content animate-zoom-in text-center share-content-box">
+      <div class="modal-creator-header">
+        <h3><i data-lucide="check-circle" class="success-text"></i> Tautan Kuis Berhasil Dibuat!</h3>
+        <button class="btn-icon-only" id="btn-close-share-modal"><i data-lucide="x"></i></button>
+      </div>
+      <p class="share-desc">Salin link di bawah ini dan bagikan kepada murid-murid Anda untuk langsung bermain kuis ini secara gratis.</p>
+      
+      <div class="share-link-wrapper">
+        <input type="text" id="input-share-link" readonly>
+        <button id="btn-copy-link" class="btn btn-primary">
+          <i data-lucide="copy" id="btn-copy-icon"></i> <span id="btn-copy-text">Salin</span>
+        </button>
+      </div>
+
+      <div class="qr-info-note">
+        <i data-lucide="info" class="info-icon"></i>
+        <span>Link di atas sudah berisi semua data soal kuis. Murid Anda tidak perlu menginstal aplikasi apa pun!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Application JS Code -->
+  <script src="app.js"></script>
+</body>
+</html>
