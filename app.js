@@ -80,9 +80,9 @@ function playCorrectSound() {
 }
 
 function playWrongSound() {
-  // Buzz for wrong answer
-  playTone(220, 'sawtooth', 0.4);
-  playTone(147, 'sawtooth', 0.4, 0.1);
+  // Gentle buzz for wrong answer (using soft triangle wave)
+  playTone(220, 'triangle', 0.4);
+  playTone(147, 'triangle', 0.4, 0.1);
 }
 
 function playTickSound(isUrgent = false) {
@@ -552,8 +552,8 @@ function handleQuestionTimeout() {
 
   // Show status overlay
   document.getElementById('status-icon-timeout').classList.add('active');
-  document.getElementById('status-message').textContent = "Waktu Habis!";
-  document.getElementById('status-submessage').textContent = `Jawaban benar: ${currentQuiz.questions[gameState.currentQuestionIndex].answer}`;
+  document.getElementById('status-message').textContent = "⏰ Oh No, Waktu Habis! ⏰";
+  document.getElementById('status-submessage').textContent = `Jawaban yang benar adalah: ${currentQuiz.questions[gameState.currentQuestionIndex].answer} 💡`;
   modalOverlayStatus.classList.add('active');
 
   // Update card state on grid
@@ -588,14 +588,14 @@ function selectChoice(choiceIdx) {
     gameState.score++;
     playCorrectSound();
     document.getElementById('status-icon-correct').classList.add('active');
-    document.getElementById('status-message').textContent = "Jawaban Benar!";
-    document.getElementById('status-submessage').textContent = "Kerja bagus!";
+    document.getElementById('status-message').textContent = "🌟 Hebat! Benar! 🌟";
+    document.getElementById('status-submessage').textContent = "Kamu pintar sekali! 🎉";
     document.getElementById('game-score').textContent = gameState.score;
   } else {
     playWrongSound();
     document.getElementById('status-icon-wrong').classList.add('active');
-    document.getElementById('status-message').textContent = "Jawaban Salah!";
-    document.getElementById('status-submessage').textContent = `Kunci jawaban: ${q.answer}`;
+    document.getElementById('status-message').textContent = "Tidak Apa-apa! ✨";
+    document.getElementById('status-submessage').textContent = `Jawaban yang benar adalah: ${q.answer} 💡`;
   }
 
   modalOverlayStatus.classList.add('active');
@@ -616,12 +616,12 @@ function updateCardResult(qIndex, isCorrect) {
 
   if (isCorrect) {
     backFace.classList.add('correct');
-    statusIconDiv.innerHTML = '<i data-lucide="check-circle" style="width: 24px; height:24px;"></i>';
-    statusText.textContent = "BENAR";
+    statusIconDiv.innerHTML = '<i data-lucide="check" style="width: 24px; height:24px;"></i>';
+    statusText.textContent = "🎉 BENAR!";
   } else {
     backFace.classList.add('wrong');
-    statusIconDiv.innerHTML = '<i data-lucide="x-circle" style="width: 24px; height:24px;"></i>';
-    statusText.textContent = "SALAH";
+    statusIconDiv.innerHTML = '<i data-lucide="help-circle" style="width: 24px; height:24px;"></i>';
+    statusText.textContent = "💡 COBA LAGI";
   }
 
   if (window.lucide) {
